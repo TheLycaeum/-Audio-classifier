@@ -22,21 +22,23 @@ def get_file_details(files):
     return artists, titles
 
 def get_names(artists, titles):
+
+    names = []
+    
     if artists == [] and titles == []:
-        message = "No Records Found"
+        status = False
 
     else:
-        message = "Choose Name:\n"
-        n = 1
+        status = True
         for artist, title in zip(artists,titles):
-            message += str(n) + " " + artist + "-"
-            message += title +".mp3\n"
-            n += 1
-    return message
+            name = ""
+            name += artist + "-" + title + ".mp3"
+            names.append(name)
+    return [names,status]
 
-def choose_name(artists, titles, choice):
-    name = "" 
-    name += artists[choice-1] + "-" + titles[choice-1] + ".mp3"
+# def choose_name(artists, titles, choice):
+#     name = "" 
+#     name += artists[choice-1] + "-" + titles[choice-1] + ".mp3"
     
 
 if __name__ == "__main__":
