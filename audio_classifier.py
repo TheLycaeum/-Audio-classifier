@@ -1,4 +1,4 @@
-from os import listdir
+from os import listdir,rename
 from key import api_key
 from acoustid import match
 
@@ -15,7 +15,7 @@ def get_mp3(path):
 def get_file_details(files):
     artists = []
     titles = []
-    for score, recording_id, title, artist in acoustid.match(api_key,files):
+    for score, recording_id, title, artist in match(api_key,files):
         artists.append(artist)
         titles.append(title)
 
@@ -25,20 +25,18 @@ def get_names(artists, titles):
 
     names = []
     
-    if artists == [] and titles == []:
+    if artists == [] or titles == []:
         status = False
 
     else:
         status = True
         for artist, title in zip(artists,titles):
-            name = ""
-            name += artist + "-" + title + ".mp3"
-            names.append(name)
-    return [names,status]
+            if isinstance(artist,str) and isinstance(title,str):
+                name = ""
+                name += artist + "-" + title + ".mp3"
+                names.append(name)
 
-# def choose_name(artists, titles, choice):
-#     name = "" 
-#     name += artists[choice-1] + "-" + titles[choice-1] + ".mp3"
+    return names,status
 
 def get_best_name(names,status):
     best_name = ""
@@ -57,3 +55,8 @@ if __name__ == "__main__":
     mp3_list = get_mp3(".")
     for files in mp3_list:
         artists, titles = get_file_details(files)
+        names, status = get_names(artists, titles)
+        best_name = get_best_name(names,status)
+        if status:
+            rename(files,best_name)
+        

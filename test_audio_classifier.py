@@ -25,15 +25,15 @@ def test_get_possible_names_no_records():
     titles = []
 
     actual = get_names(artists, titles)
-    expected = [[],False]
+    expected = [],False
     assert actual == expected
 
 def test_get_possible_names_with_records():
-    artists = ['John','John Denver','John D','John Denver']
-    titles = ['Country roads','Country roads','Take me Home','Country roads']
+    artists = ['John','John Denver','John D','John Denver',None]
+    titles = ['Country roads','Country roads','Take me Home','Country roads',None]
 
     actual = get_names(artists, titles)
-    expected = [["John-Country roads.mp3", "John Denver-Country roads.mp3","John D-Take me Home.mp3","John Denver-Country roads.mp3"],True]
+    expected = ["John-Country roads.mp3", "John Denver-Country roads.mp3","John D-Take me Home.mp3","John Denver-Country roads.mp3"],True
     assert actual == expected
 
 def test_get_best_name_no_records():
@@ -54,13 +54,3 @@ def test_get_best_name_with_records():
 
     assert expected == actual
 
-
-
-# def test_choose_name():
-#     choice = 2
-#     artists = ['John','John Denver','John D']
-#     titles = ['Country roads','Country roads','Take me Home']
-
-#     expected = "John Denver-Country roads.mp3"
-#     actual = choose_name(artists, titles, choice)
-    
