@@ -1,4 +1,4 @@
-from audio_classifier import get_mp3, get_names
+from audio_classifier import get_mp3, get_names, choose_name
 import unittest
 from unittest import mock
 
@@ -35,3 +35,13 @@ def test_get_possible_names_with_records():
     actual = get_names(artists, titles)
     expected = "Choose Name:\n1 John-Country roads.mp3\n2 John Denver-Country roads.mp3\n3 John D-Take me Home.mp3\n"
     assert actual == expected
+
+
+def test_choose_name():
+    choice = 2
+    artists = ['John','John Denver','John D']
+    titles = ['Country roads','Country roads','Take me Home']
+
+    expected = "John Denver-Country roads.mp3"
+    actual = choose_name(artists, titles, choice)
+    

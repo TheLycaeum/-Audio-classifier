@@ -34,6 +34,11 @@ def get_names(artists, titles):
             n += 1
     return message
 
+def choose_name(artists, titles, choice):
+    name = "" 
+    name += artists[choice-1] + "-" + titles[choice-1] + ".mp3"
+    
+
 if __name__ == "__main__":
 
     mp3_list = get_mp3(".")
