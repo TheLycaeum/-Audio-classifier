@@ -1,6 +1,6 @@
 from os import listdir
 from key import api_key
-from acoustid import fingerprint_file, lookup
+from acoustid import match
 
 def get_mp3(path):
 
@@ -13,12 +13,20 @@ def get_mp3(path):
     return mp3_list
 
 def get_file_details(files):
-    duration, fingerprint = fingerprint_file(files)
-    file_details =  lookup(api_key, fingerprint, duration)
-    return file_details
-    
+    artists = []
+    titles = []
+    for score, recording_id, title, artist in acoustid.match(api_key,files):
+        artists.append(artist)
+        titles.append(title)
+
+    return artists, titles
+
+def get_names(artists, titles):
+    message = "No Records Found"
+    return message
+
 if __name__ == "__main__":
 
     mp3_list = get_mp3(".")
     for files in mp3_list:
-        file_details = get_file_details(files)
+        artists, titles = get_file_details(files)
