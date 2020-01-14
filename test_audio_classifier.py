@@ -28,3 +28,10 @@ def test_get_possible_names_no_records():
     expected = "No Records Found"
     assert actual == expected
 
+def test_get_possible_names_with_records():
+    artists = ['John','John Denver','John D']
+    titles = ['Country roads','Country roads','Take me Home']
+
+    actual = get_names(artists, titles)
+    expected = "Choose Name:\n1 John-Country roads.mp3\n2 John Denver-Country roads.mp3\n3 John D-Take me Home.mp3\n"
+    assert actual == expected

@@ -22,7 +22,16 @@ def get_file_details(files):
     return artists, titles
 
 def get_names(artists, titles):
-    message = "No Records Found"
+    if artists == [] and titles == []:
+        message = "No Records Found"
+
+    else:
+        message = "Choose Name:\n"
+        n = 1
+        for artist, title in zip(artists,titles):
+            message += str(n) + " " + artist + "-"
+            message += title +".mp3\n"
+            n += 1
     return message
 
 if __name__ == "__main__":
