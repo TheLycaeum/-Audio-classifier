@@ -39,7 +39,18 @@ def get_names(artists, titles):
 # def choose_name(artists, titles, choice):
 #     name = "" 
 #     name += artists[choice-1] + "-" + titles[choice-1] + ".mp3"
-    
+
+def get_best_name(names,status):
+    best_name = ""
+    if status:
+        best_name = names[0]
+        max_count = 0
+        for name in names:
+            if names.count(name) > max_count:
+                max_count = names.count(name)
+                best_name = name
+    return best_name
+                
 
 if __name__ == "__main__":
 
