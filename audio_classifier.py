@@ -44,8 +44,7 @@ def get_names(artists, titles):
 
     return names,status
 
-def get_best_name(names,status):
-    best_name = ""
+def get_best_name(names):
     best_name = names[0]
     max_count = 0
     for name in names:
@@ -75,6 +74,7 @@ def get_paths(choice, old_name, best_name):
 
         return old_path,new_path
     
+
 if __name__ == "__main__":
     print("How you want to classify?\n 1. artist/title.mp3 \n 2. artist-title.mp3 \n")
     choice = int(input())
@@ -83,10 +83,9 @@ if __name__ == "__main__":
         file_path = path + "/" + files
         artists, titles = get_file_details(file_path)
         names, status = get_names(artists, titles)
-        best_name = get_best_name(names,status)
         if status:
-            best_name = get_best_name(names,status)
-            old_path, new_path = get_paths(choices, files, best_name)
+            best_name = get_best_name(names)
+            old_path, new_path = get_paths(choice, files, best_name)
 
             if choice == 1:
                 move(old_path,new_path)

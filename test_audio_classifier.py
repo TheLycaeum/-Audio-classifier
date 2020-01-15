@@ -16,9 +16,6 @@ class Test_get_mp3(unittest.TestCase):
             mocked_listdir.return_value = ['1.py','2.py','3.txt','4','n.py']
             mp3_list = get_mp3(".")
             self.assertEqual(len(mp3_list),0)
-
-def test_get_file_details():
-    pass
             
 def test_get_possible_names_no_records():
     artists = []
@@ -39,9 +36,8 @@ def test_get_possible_names_with_records():
 def test_get_best_name():
     names = ["John-Country roads.mp3", "John Denver-Country roads.mp3","John D-Take me Home.mp3","John Denver-Country roads.mp3"]
 
-    status = True
     expected = "John Denver-Country roads.mp3"
-    actual = get_best_name(names, status) 
+    actual = get_best_name(names) 
 
     assert expected == actual
 
