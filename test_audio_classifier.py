@@ -1,4 +1,4 @@
-from audio_classifier import get_mp3, get_names, get_best_name
+from audio_classifier import get_mp3, get_names, get_best_name, get_paths
 import unittest
 from unittest import mock
 
@@ -36,16 +36,7 @@ def test_get_possible_names_with_records():
     expected = ["John-Country roads.mp3", "John Denver-Country roads.mp3","John D-Take me Home.mp3","John Denver-Country roads.mp3"],True
     assert actual == expected
 
-def test_get_best_name_no_records():
-
-    names = []
-    status = False
-    expected = ""
-    actual = get_best_name(names, status) 
-
-    assert expected == actual    
-
-def test_get_best_name_with_records():
+def test_get_best_name():
     names = ["John-Country roads.mp3", "John Denver-Country roads.mp3","John D-Take me Home.mp3","John Denver-Country roads.mp3"]
 
     status = True
@@ -54,3 +45,16 @@ def test_get_best_name_with_records():
 
     assert expected == actual
 
+def test_get_paths_choice_1():
+    choice = 1
+    old_name = "abc.mp3"
+    best_name = "John Denver-Country roads.mp3"
+
+    assert get_paths(choice, old_name, best_name) == ("./abc.mp3","./John Denver/Country roads.mp3")
+
+def test_get_paths_choice_2():
+    choice = 2
+    old_name = "abc.mp3"
+    best_name = "John Denver-Country roads.mp3"
+
+    assert get_paths(choice, old_name, best_name) == ("./abc.mp3","./John Denver-Country roads.mp3")
