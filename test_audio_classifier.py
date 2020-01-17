@@ -1,6 +1,6 @@
 from audio_classifier import get_mp3, get_names, get_best_name, get_paths
-import unittest
 from unittest import mock
+import unittest
 
 class Test_get_mp3(unittest.TestCase):
 
@@ -18,6 +18,7 @@ class Test_get_mp3(unittest.TestCase):
             self.assertEqual(len(mp3_list),0)
             
 def test_get_possible_names_no_records():
+
     artists = []
     titles = []
 
@@ -41,16 +42,17 @@ def test_get_best_name():
 
     assert expected == actual
 
-def test_get_paths_choice_1():
-    choice = 1
+def test_get_paths_dire_true():
+    dire = True
     old_name = "abc.mp3"
     best_name = "John Denver-Country roads.mp3"
 
-    assert get_paths(choice, old_name, best_name) == ("./abc.mp3","./John Denver/Country roads.mp3")
+    assert get_paths(dire,old_name, best_name) == ("./abc.mp3","./John Denver/Country roads.mp3")
 
-def test_get_paths_choice_2():
-    choice = 2
+def test_get_paths_dire_false():
+    dire = False
     old_name = "abc.mp3"
     best_name = "John Denver-Country roads.mp3"
 
-    assert get_paths(choice, old_name, best_name) == ("./abc.mp3","./John Denver-Country roads.mp3")
+    assert get_paths(dire,old_name, best_name) == ("./abc.mp3","./John Denver-Country roads.mp3")
+
