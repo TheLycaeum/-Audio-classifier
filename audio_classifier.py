@@ -4,8 +4,23 @@ from shutil import move, copyfile
 from acoustid import match
 import logging
 import argparse
-logging.basicConfig(level=logging.INFO)
 path = "."
+
+ 
+def get_logger():
+    l = logging.getLogger('')
+    sh = logging.StreamHandler()
+ 
+    l.addHandler(sh)
+    fh = logging.FileHandler('prog.log')
+    fmt = logging.Formatter('%(asctime)s | %(filename)s:%(lineno)d | %(message)s')
+    fh.setFormatter(fmt)
+    l.addHandler(fh)
+ 
+    l.setLevel(logging.DEBUG)
+    fh.setLevel(logging.DEBUG)
+    sh.setLevel(logging.WARNING)
+    return l
 
 
 def get_args():
@@ -23,15 +38,15 @@ def get_args():
     return args.path, args.dire, args.inplace
 
 def get_mp3(path):
-
+    l = get_logger()
     mp3_list = []
     for files in listdir(path):
         if ".mp3" in files:
             mp3_list.append(files)
     if len(mp3_list) == 0:
-        logging.warning("No mp3 found in folder")
+        l.warning("No mp3 found in folder")
     else:
-        logging.info("mp3 from %s fetched",path)
+        l.info("mp3 from %s fetched",path)
 
     return mp3_list
 
@@ -62,13 +77,14 @@ def get_names(artists, titles):
     return names,status
 
 def get_best_name(names):
+    l = get_logger()
     best_name = names[0]
     max_count = 0
     for name in names:
         if names.count(name) > max_count:
             max_count = names.count(name)
             best_name = name
-    logging.info("Chosen name:%s",best_name)
+    l.debug("Chosen name:%s",best_name)
     return best_name
 
 def get_paths(dire,old_name, best_name):
@@ -97,7 +113,7 @@ def get_paths(dire,old_name, best_name):
     
 
 if __name__ == "__main__":
-
+    l = get_logger()
     path, dire, inplace = get_args()
     mp3_list = get_mp3(path)
 
@@ -106,17 +122,17 @@ if __name__ == "__main__":
         artists, titles = get_file_details(file_path)
         names, status = get_names(artists, titles)
         if status:
-            logging.info("%s details found",files)
+            l.info("%s details found",files)
             best_name = get_best_name(names)
             old_path, new_path = get_paths(dire,files, best_name)
 
             if dire:
                 if inplace:
                     copyfile(old_path, new_path)
-                    logging.info("%s copied to %s",old_path,new_path)
+                    l.debug("%s copied to %s",old_path,new_path)
                 else:
                     move(old_path,new_path)
-                    logging.info("%s moved to %s",old_path,new_path)
+                    l.debug("%s moved to %s",old_path,new_path)
             else:
 
                 if inplace and old_path != new_path :
@@ -125,8 +141,8 @@ if __name__ == "__main__":
                 else:
                     rename(old_path, new_path)
 
-                logging.info("%s moved to %s",old_path,new_path)
+                l.debug("%s moved to %s",old_path,new_path)
         else:
-            logging.info("%s details not found",files)
+            l.warning("%s details not found",files)
             
         
