@@ -1,4 +1,4 @@
-from audio_classifier import get_mp3, get_names, get_best_name, get_paths, get_directories
+from audio_classifier import get_mp3, get_names, get_best_name, get_paths, get_directories, directory_path
 from unittest import mock
 import unittest
 import os
@@ -65,8 +65,25 @@ def test_get_directories_single_level():
     os.mkdir('/tmp/a/2')
     os.mkdir('/tmp/a/3')
 
-    actual = get_directories("/tmp/a")
+   
+    actual =  get_directories("/tmp/a")
     expected = ['/tmp/a','/tmp/a/1','/tmp/a/2','/tmp/a/3']
+
+    shutil.rmtree('/tmp/a')
+
+    assert actual == expected
+
+def test_get_directories_multi_level():
+    os.mkdir('/tmp/a')
+    os.mkdir('/tmp/a/1')
+    os.mkdir('/tmp/a/2')
+    os.mkdir('/tmp/a/3')
+    os.mkdir('/tmp/a/3/s')
+    os.mkdir('/tmp/a/2/u')
+    os.mkdir('/tmp/a/2/u/b')
+    
+    actual = get_directories("/tmp/a")
+    expected = ['/tmp/a','/tmp/a/1','/tmp/a/2','/tmp/a/2/u','/tmp/a/2/u/b','/tmp/a/3','/tmp/a/3/s']
     shutil.rmtree('/tmp/a')
 
     assert actual == expected

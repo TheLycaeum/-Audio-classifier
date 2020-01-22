@@ -6,6 +6,7 @@ import logging
 import argparse
 import os
 path = "."
+directory_path = []
 
 
  
@@ -50,7 +51,7 @@ def get_mp3(audio_path):
     if len(mp3_list) == 0:
         l.warning("No mp3 found in folder")
     else:
-        l.info("mp3 from %s fetched",path)
+        l.info("mp3 from %s fetched",audio_path)
 
     return mp3_list
 
@@ -89,6 +90,7 @@ def get_best_name(names):
             max_count = names.count(name)
             best_name = name
     l.debug("Chosen name:%s",best_name)
+
     return best_name
 
 def get_paths(dire,old_name, best_name):
@@ -115,12 +117,9 @@ def get_paths(dire,old_name, best_name):
       
         return old_path,new_path
 
-def get_directories(path):
-    directory_path = [path]
-    for directory in listdir(path):
-        dir_path = path + "/" + directory
-        if os.path.isdir(dir_path):
-            directory_path.append(dir_path)
+def get_directories(audio_path):
+
+    directory_path =  [x[0] for x in os.walk(audio_path)]
     directory_path.sort()
     return directory_path
 def classify(audio_path,dire,inplace):
