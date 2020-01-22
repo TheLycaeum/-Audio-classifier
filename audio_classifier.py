@@ -28,15 +28,15 @@ def get_logger():
 
 def get_args():
 
-    parser = argparse.ArgumentParser(description='Classify audio, according to user options')
+    parser = argparse.ArgumentParser(description='Classify audio with records from acoustid.org, according to user options')
 
     parser.add_argument('path',help='path of directory to classify')
 
     parser.add_argument('-d', '--dire', default = False, action = 'store_true', help = 'if mentioned, classified as artist/title.mp3,if False renamed as artist-title.mp3, by default False')
 
-    parser.add_argument('-i', '--inplace', default = False, action = 'store_true', help = 'if mentioned, classified by not deleting current file,by default False')
+    parser.add_argument('-i', '--inplace', default = False, action = 'store_true', help = 'if mentioned, classified keeping current file,by default False')
 
-    parser.add_argument('-r', '--recurse', default = False, action = 'store_true', help = 'if mentioned, classifies audio files in sub-directories residing in given directory, by default False')
+    parser.add_argument('-r', '--recurse', default = False, action = 'store_true', help = 'if mentioned, classifies audio files in sub-directories of given path, by default False')
 
     args = parser.parse_args()
   
@@ -49,7 +49,7 @@ def get_mp3(audio_path):
         if ".mp3" in files:
             mp3_list.append(files)
     if len(mp3_list) == 0:
-        l.warning("No mp3 found in folder")
+        l.warning("No mp3 found in folder %s",audio_path)
     else:
         l.info("mp3 from %s fetched",audio_path)
 
@@ -89,7 +89,7 @@ def get_best_name(names):
         if names.count(name) > max_count:
             max_count = names.count(name)
             best_name = name
-    l.debug("Chosen name:%s",best_name)
+    l.info("Chosen name:%s",best_name)
 
     return best_name
 
@@ -105,25 +105,25 @@ def get_paths(dire,old_name, best_name):
             artist_directory = path + "/" + artist
             mkdir(artist_directory)
 
-        old_path = path + "/" + old_name
         new_path = path + "/"+ artist + "/" + title
 
-        return old_path,new_path
+        return new_path
 
     else:
         
-        old_path = path + "/" + old_name
         new_path = path + "/" + best_name
       
-        return old_path,new_path
+        return new_path
 
 def get_directories(audio_path):
 
     directory_path =  [x[0] for x in os.walk(audio_path)]
     directory_path.sort()
+
     return directory_path
+
 def classify(audio_path,dire,inplace):
-    
+    l = get_logger()
     mp3_list = get_mp3(audio_path)
 
     for files in mp3_list:
@@ -133,33 +133,37 @@ def classify(audio_path,dire,inplace):
         if status:
             l.info("%s details found",files)
             best_name = get_best_name(names)
-            old_path, new_path = get_paths(dire,files, best_name)
+            new_path = get_paths(dire, files, best_name)
 
             if dire:
-                if inplace:
-                    copyfile(old_path, new_path)
-                    l.debug("%s copied to %s",old_path,new_path)
+
+                if inplace and file_path != new_path :
+                    print(file_path, new_path, inplace)
+                    copyfile(file_path, new_path)
+                    l.debug("%s copied to %s", file_path,new_path)
+                   
                 else:
-                    move(old_path,new_path)
-                    l.debug("%s moved to %s",old_path,new_path)
+                    move(file_path,new_path)
+                    l.debug("%s moved to %s", file_path, new_path)
             else:
 
-                if inplace and old_path != new_path :
-                    copyfile(old_path, new_path)
+                if inplace and file_path != new_path :
+                    copyfile(file_path, new_path)
+                    l.debug("%s copied to %s", file_path,new_path)
 
                 else:
-                    rename(old_path, new_path)
-
-                l.debug("%s moved to %s",old_path,new_path)
+                    rename(file_path, new_path)
+                    l.debug("%s moved to %s",file_path,new_path)
         else:
-            l.warning("%s details not found",files)
+            l.warning("%s records not found",files)
     
-    
+     
 if __name__ == "__main__":
-    l = get_logger()
     path, dire, inplace, recurse = get_args()
     if recurse:
         directory_path = get_directories(path)
+        for directory in directory_path:
+            classify(directory, dire, inplace)
 
     else:
         classify(path, dire, inplace)
