@@ -6,11 +6,11 @@ User register Application [AcoustID](acoustid.org) and get the API key. Copy API
 
 ## **Working**
 
-..* Read directory to classify from user
-..* Read classifying option from the user
-..* List mp3 files in directory
-..* Get file details from database.
-..* Classify the files according to user choice
+* Read directory to classify from user
+* Read classifying option from the user
+* List mp3 files in directory
+* Get file details from database.
+* Classify the files according to user choice
 
 ### **Requirements**
 
