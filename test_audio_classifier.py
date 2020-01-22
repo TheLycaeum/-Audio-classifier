@@ -47,7 +47,7 @@ def test_get_paths_dire_true():
     old_name = "abc.mp3"
     best_name = "John Denver-Country roads.mp3"
 
-    assert get_paths(dire,old_name, best_name) == ("./abc.mp3","./John Denver/Country roads.mp3")
+    assert get_paths(dire, old_name, best_name) == ("./abc.mp3","./John Denver/Country roads.mp3")
 
 def test_get_paths_dire_false():
     dire = False

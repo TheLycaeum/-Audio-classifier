@@ -6,6 +6,7 @@ import logging
 import argparse
 path = "."
 
+
  
 def get_logger():
     l = logging.getLogger('')
@@ -29,18 +30,20 @@ def get_args():
 
     parser.add_argument('path',help='path of directory to classify')
 
-    parser.add_argument('-d', '--dire', default = False, help = 'if True classified as artist/title.mp3,if False renamed as artist-title.mp3, by default False')
+    parser.add_argument('-d', '--dire', default = False, action = 'store_true', help = 'if mentioned, classified as artist/title.mp3,if False renamed as artist-title.mp3, by default False')
 
-    parser.add_argument('-i', '--inplace', default = False, help = 'if True classified by not deleting current file,by default False')
+    parser.add_argument('-i', '--inplace', default = False, action = 'store_true', help = 'if mentioned, classified by not deleting current file,by default False')
+
+    parser.add_argument('-r', '--recurse', default = False, action = 'store_true', help = 'if mentioned, classifies audio files in sub-directories residing in given directory, by default False')
 
     args = parser.parse_args()
   
-    return args.path, args.dire, args.inplace
+    return args.path, args.dire, args.inplace, args.recurse
 
-def get_mp3(path):
+def get_mp3(audio_path):
     l = get_logger()
     mp3_list = []
-    for files in listdir(path):
+    for files in listdir(audio_path):
         if ".mp3" in files:
             mp3_list.append(files)
     if len(mp3_list) == 0:
@@ -110,15 +113,13 @@ def get_paths(dire,old_name, best_name):
         new_path = path + "/" + best_name
       
         return old_path,new_path
-    
 
-if __name__ == "__main__":
-    l = get_logger()
-    path, dire, inplace = get_args()
-    mp3_list = get_mp3(path)
+def classify(audio_path,dire,inplace):
+    
+    mp3_list = get_mp3(audio_path)
 
     for files in mp3_list:
-        file_path = path + "/" + files
+        file_path = audio_path + "/" + files
         artists, titles = get_file_details(file_path)
         names, status = get_names(artists, titles)
         if status:
@@ -144,5 +145,15 @@ if __name__ == "__main__":
                 l.debug("%s moved to %s",old_path,new_path)
         else:
             l.warning("%s details not found",files)
+    
+    
+if __name__ == "__main__":
+    l = get_logger()
+    path, dire, inplace, recurse = get_args()
+    if recurse:
+        pass
+
+    else:
+        classify(path, dire, inplace)
             
         
