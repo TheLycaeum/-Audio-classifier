@@ -1,10 +1,10 @@
-#**Introduction**
+## **Introduction**
 
 Audio Classifier helps you to sort your messed up music directories with no proper name for mp3 files. It renames and classifies mp3 files with records from [AcoustID](acoustid.org) web service.
 
 User register Application [AcoustID](acoustid.org) and get the API key. Copy API key in key.py file.
 
-#**Working**
+## **Working**
 
 -Read directory to classify from user
 -Read classifying option from the user
@@ -12,11 +12,11 @@ User register Application [AcoustID](acoustid.org) and get the API key. Copy API
 -Get file details from database.
 -Classify the files according to user choice
 
-#**Requirements**
+### **Requirements**
 
 Check _requirements.txt_
 
-#**Usage**
+## **Usage**
 
 ```
 Classify audio with records from acoustid.org, according to user options
