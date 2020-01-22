@@ -1,6 +1,9 @@
-from audio_classifier import get_mp3, get_names, get_best_name, get_paths
+from audio_classifier import get_mp3, get_names, get_best_name, get_paths, get_directories
 from unittest import mock
 import unittest
+import os
+import shutil
+
 
 class Test_get_mp3(unittest.TestCase):
 
@@ -56,3 +59,14 @@ def test_get_paths_dire_false():
 
     assert get_paths(dire,old_name, best_name) == ("./abc.mp3","./John Denver-Country roads.mp3")
 
+def test_get_directories_single_level():
+    os.mkdir('/tmp/a')
+    os.mkdir('/tmp/a/1')
+    os.mkdir('/tmp/a/2')
+    os.mkdir('/tmp/a/3')
+
+    actual = get_directories("/tmp/a")
+    expected = ['/tmp/a','/tmp/a/1','/tmp/a/2','/tmp/a/3']
+    shutil.rmtree('/tmp/a')
+
+    assert actual == expected

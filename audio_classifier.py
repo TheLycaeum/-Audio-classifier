@@ -1,9 +1,10 @@
-from os import listdir,rename,path, mkdir
+from os import listdir,rename, path, mkdir
 from key import api_key
 from shutil import move, copyfile
 from acoustid import match
 import logging
 import argparse
+import os
 path = "."
 
 
@@ -114,6 +115,14 @@ def get_paths(dire,old_name, best_name):
       
         return old_path,new_path
 
+def get_directories(path):
+    directory_path = [path]
+    for directory in listdir(path):
+        dir_path = path + "/" + directory
+        if os.path.isdir(dir_path):
+            directory_path.append(dir_path)
+    directory_path.sort()
+    return directory_path
 def classify(audio_path,dire,inplace):
     
     mp3_list = get_mp3(audio_path)
@@ -151,7 +160,7 @@ if __name__ == "__main__":
     l = get_logger()
     path, dire, inplace, recurse = get_args()
     if recurse:
-        pass
+        directory_path = get_directories(path)
 
     else:
         classify(path, dire, inplace)
