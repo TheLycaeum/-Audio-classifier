@@ -43,10 +43,11 @@ def get_args():
   
     return args.path, args.dire, args.inplace, args.recurse
 
-def get_mp3(audio_path): # list mp3 files in audio_path
+def get_mp3(audio_path):
+    "list mp3 files in audio_path" ## Use docstrings
     l = get_logger()
     mp3_list = []
-    for files in listdir(audio_path):
+    for files in listdir(audio_path): ## Try using glob instead of os.listdir
         if ".mp3" in files:
             mp3_list.append(files)
     if len(mp3_list) == 0:
