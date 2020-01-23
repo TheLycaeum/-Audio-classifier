@@ -4,17 +4,6 @@ Audio Classifier helps you to sort your messed up music directories with no prop
 
 User register Application [AcoustID](acoustid.org) and get the API key. Copy API key in key.py file.
 
-## **Working**
-
-* Read directory to classify from user
-* Read classifying option from the user
-* List mp3 files in directory
-* Get file details from database.
-* Classify the files according to user choice
-
-### **Requirements**
-
-Check _requirements.txt_
 
 ## **Usage**
 
