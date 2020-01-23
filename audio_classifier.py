@@ -15,7 +15,7 @@ def get_logger():
     sh = logging.StreamHandler()
  
     l.addHandler(sh)
-    fh = logging.FileHandler('prog.log')
+    fh = logging.FileHandler('classified.log')
     fmt = logging.Formatter('%(asctime)s | %(filename)s:%(lineno)d | %(message)s')
     fh.setFormatter(fmt)
     l.addHandler(fh)
