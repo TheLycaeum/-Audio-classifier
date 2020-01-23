@@ -5,6 +5,7 @@ from acoustid import match
 import logging
 import argparse
 import os
+import os.path
 path = "."
 directory_path = []
 
@@ -102,7 +103,7 @@ def get_paths(dire,old_name, best_name): # new path is returned.
 
         if artist not in listdir(path):
 
-            artist_directory = path + "/" + artist
+            artist_directory = os.path.join(path,artist)
             mkdir(artist_directory)
 
         new_path = path + "/"+ artist + "/" + title
