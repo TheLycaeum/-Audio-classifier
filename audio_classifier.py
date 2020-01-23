@@ -28,19 +28,21 @@ def get_logger():
 
 
 def get_args():
-
     parser = argparse.ArgumentParser(description='Classify audio with records from acoustid.org, according to user options')
-
     parser.add_argument('path',help='path of directory to classify')
-
-    parser.add_argument('-d', '--dire', default = False, action = 'store_true', help = 'if mentioned, classified as artist/title.mp3,if False renamed as artist-title.mp3, by default False')
-
-    parser.add_argument('-i', '--inplace', default = False, action = 'store_true', help = 'if mentioned, classified keeping current file,by default False')
-
-    parser.add_argument('-r', '--recurse', default = False, action = 'store_true', help = 'if mentioned, classifies audio files in sub-directories of given path, by default False')
-
+    parser.add_argument('-d', '--dire', 
+                        default = False, 
+                        action = 'store_true', 
+                        help = 'if mentioned, classified as artist/title.mp3,if False renamed as artist-title.mp3, by default False')
+    parser.add_argument('-i', '--inplace', 
+                        default = False, 
+                        action = 'store_true', 
+                        help = 'Deletes existing files. %(default)s by default')
+    parser.add_argument('-r', '--recurse', 
+                        default = False, 
+                        action = 'store_true', 
+                        help = 'if mentioned, classifies audio files in sub-directories of given path, by default False')
     args = parser.parse_args()
-  
     return args.path, args.dire, args.inplace, args.recurse
 
 def get_mp3(audio_path):
