@@ -42,7 +42,7 @@ def get_args():
   
     return args.path, args.dire, args.inplace, args.recurse
 
-def get_mp3(audio_path):
+def get_mp3(audio_path): # list mp3 files in audio_path
     l = get_logger()
     mp3_list = []
     for files in listdir(audio_path):
@@ -55,7 +55,7 @@ def get_mp3(audio_path):
 
     return mp3_list
 
-def get_file_details(files):
+def get_file_details(files): # get details from acoustid, with acoustid.match
     artists = []
     titles = []
     for score, recording_id, title, artist in match(api_key,files):
@@ -64,7 +64,7 @@ def get_file_details(files):
     
     return artists, titles
 
-def get_names(artists, titles):
+def get_names(artists, titles): 
 
     names = []
     
@@ -81,7 +81,7 @@ def get_names(artists, titles):
 
     return names,status
 
-def get_best_name(names):
+def get_best_name(names): # Choose Best possible name. Most occuring name is names list is right 
     l = get_logger()
     best_name = names[0]
     max_count = 0
@@ -93,7 +93,7 @@ def get_best_name(names):
 
     return best_name
 
-def get_paths(dire,old_name, best_name):
+def get_paths(dire,old_name, best_name): # new path is returned. 
 
     if dire:
         
@@ -115,14 +115,14 @@ def get_paths(dire,old_name, best_name):
       
         return new_path
 
-def get_directories(audio_path):
+def get_directories(audio_path): # if recurse, all subdirectories are returned
 
     directory_path =  [x[0] for x in os.walk(audio_path)]
     directory_path.sort()
 
     return directory_path
 
-def classify(audio_path,dire,inplace):
+def classify(audio_path,dire,inplace): # Classification or rename done here, shutil.copy, shutil.move , os.rename used
     l = get_logger()
     mp3_list = get_mp3(audio_path)
 
